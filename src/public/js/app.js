@@ -1,15 +1,22 @@
 const socket = new WebSocket(`ws://${window.location.host}`); // 웹소켓 생성
 
-socket.addEventListener("open", () => {
+function handleOpen() {
   console.log("Connected to Server ✅");
-});
+}
 
-socket.addEventListener("message", (message) => {
-  console.log("New message: ", message.data);
-});
+function handleMessage(message) {
+    console.log(message.data);
+}
 
-socket.addEventListener("close", () => {
-  console.log("Disconnected from Server ❌");
-});
+function handleClose() {
+    console.log("Disconnected from Server ❌");
+}
+
+
+socket.addEventListener("open", handleOpen);
+
+socket.addEventListener("message", handleMessage);
+
+socket.addEventListener("close", handleClose);
 
 setTimeout(() => socket.send("hello from the browser!"), 10000);
