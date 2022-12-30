@@ -12,14 +12,15 @@ app.get("/*", (req, res) => res.redirect("/"));
 
 const handelListen = () => console.log(`Listening on http://localhost:3000`);
 
-const server = http.createServer(app);// http 서버 생성
+const server = http.createServer(app); // http 서버 생성
 
-const wss = new WebSocket.Server({ server });// 웹소켓 서버 생성
+const wss = new WebSocket.Server({ server }); // 웹소켓 서버 생성
 
-function handleConnection(socket) {
-  console.log(socket);
-}
-
-wss.on("connection", handleConnection)
+wss.on("connection", (socket) => {
+  console.log("Connected to Browser ✅");
+  socket.on("close", () => console.log("Disconnected from the Browser ❌"));
+  socket.on("message", (message) => console.log(message.toString()));
+  socket.send("hello!!");
+});
 
 server.listen(3000, handelListen);
